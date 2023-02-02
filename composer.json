@@ -1,5 +1,5 @@
 {
-  "name": "asus/product",
+  "name": "asus55/product",
   "description": "A Magento 2 module that overwrite related product",
   "type": "magento2-module",
   "version": "1.0.0",
