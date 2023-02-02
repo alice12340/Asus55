@@ -1,0 +1,540 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Catalog\ViewModel\Product\Listing\PreparePostData;
+use Magento\Framework\App\ActionInterface;
+
+/* @var $block \Magento\Catalog\Block\Product\AbstractProduct */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+
+<?php $configProvider = $this->helper(\Asus\Product\Helper\ConfigProvider::class);
+
+?>
+
+<div id="related-products"></div>
+<script>
+    require(['jquery',  "mage/url", "Asus_Product/js/custom-local-storage", "redirectUrl"], function($, url, customStorage){
+
+        function getGAClientId() {
+            if(!!window.ga) {
+                return ga.getAll()[0].get("clientId")
+            }
+            return "";
+            //return "3535345345353.757575675675";
+        }
+
+
+        getRelatedProductDataFromCurl();
+
+        function getRelatedProductDataFromCurl(){
+            var ga_client_id = getGAClientId();
+            // alert(url.build('relatedProduct/product/fetchProduct'));
+
+                $.ajax({
+                    url: url.build('relatedProduct/product/fetchProduct'),
+                    type: "POST",
+                    data: {'ga_client_id': ga_client_id, 'product_id': '<?php echo $block->getProductSku();?>'},
+                    dataType: 'json'
+                }).done(function (result) {
+                    if (result) {
+                       
+                        var html = '';
+                        html += '<div class="products wrapper grid products-grid products-related">' +
+                            '       <ol class="products list items product-items">';
+                        result.results.map(function (item, idx) {
+                            html += '<li class="item product product-item"\n' +
+                                'id="product-item_' + item.id + '"\n' +
+                                'data-shuffle-group" >\n';
+                            var available = item.metadata.product.availableQuantity > 0 ? 'related-available' : '';
+
+                            html += ' <div class="product-item-info ' + available + '">\n' +
+                                '<a href="' + item.metadata.product.uri + '"\n' +
+                                'class="product photo product-item-photo">\n' +
+                                '<image src="' + item.metadata.product.images[0].uri + '" />'
+                            '</a>';
+                            html += '<div class="product details product-item-details">\n' +
+                                '                                    <strong class="product name product-item-name"><a\n' +
+                                '                                                class="product-item-link"\n' +
+                                '                                                title="' + item.metadata.product.title + '"\n' +
+                                '                                                href="' + item.metadata.product.uri + '">\n' +
+                                '                                            ' + item.metadata.product.title + '</a>\n' +
+                                '                                    </strong>' +
+                                '</div>'
+                            html += '</div>' +
+                                '</li>';
+
+                        })
+
+                        html += '</ol></div'
+                        $('#related-products').html(html)
+
+                    }
+
+
+                });
+
+        }
+        getRelatedProductData();
+
+        function setCookie(cname,cvalue,exdays){
+            var d = new Date();
+            d.setTime(d.getTime()+(exdays*24*60*60*1000));
+            var expires = "expires="+d.toGMTString();
+            document.cookie = cname+"="+cvalue+"; "+expires;
+        }
+
+
+        function getCookie(cname){
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
+            }
+            return "";
+        }
+
+        function getRelatedProductData() {
+
+            var apiurl = '<?=$configProvider->getApiBaseUrl()?>';
+            var ga_client_id = getGAClientId();
+            var user_email = '<?=$block->getCustomerEmail()?>';
+            var product_id = '<?php echo $block->getProductSku();?>';
+            var enable = <?=$configProvider->getRelatedProductEnabled()?>;
+            if (enable) {
+                if (!customStorage.getRelatedProductData()) {
+                    $.ajax({
+                        url: apiurl,
+                        type: "POST",
+                        data: JSON.stringify({
+                            user: '4353453453.54354354353',
+                            session: "detail-page-view",
+                            product: ["90YV0FA1-M0AA00"],
+                            useremail: ''
+                        }),
+                        processData: false,
+                        contentType: 'application/json',
+                    }).done(function (result) {
+
+                        if (result) {
+
+                            result = JSON.parse(
+                                '{\n' +
+                                '    "results": [\n' +
+                                '        {\n' +
+                                '            "entity_id": "1",\n' +
+                                '            "id": "Basketball",\n' +
+                                '            "metadata": {\n' +
+                                '                "product": {\n' +
+                                '                    "attributes": {\n' +
+                                '                        "color": null,\n' +
+                                '                        "display": null,\n' +
+                                '                        "graphic_card": null,\n' +
+                                '                        "memory": null,\n' +
+                                '                        "requiredOptions": false,\n' +
+                                '                        "on_sale": {\n' +
+                                '                            "text": [\n' +
+                                '                                "TRUE"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "operating_system": null,\n' +
+                                '                        "pc_processor": null,\n' +
+                                '                        "product_code": {\n' +
+                                '                            "text": [\n' +
+                                '                                "YV"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "size": null,\n' +
+                                '                        "storage": {\n' +
+                                '                            "text": [\n' +
+                                '                                "_"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "weight": {\n' +
+                                '                            "numbers": [\n' +
+                                '                                5.58\n' +
+                                '                            ]\n' +
+                                '                        }\n' +
+                                '                    },\n' +
+                                '                    "availability": "IN_STOCK",\n' +
+                                '                    "availableQuantity": 110,\n' +
+                                '                    "brands": [\n' +
+                                '                        "ROG"\n' +
+                                '                    ],\n' +
+                                '                    "categories": [\n' +
+                                '                        "motherboards-components > graphics cards > rog > nvida > 30 series"\n' +
+                                '                    ],\n' +
+                                '                    "id": "90YV0F98-MTAA00",\n' +
+                                '                    "images": [\n' +
+                                '                        {\n' +
+                                '                            "height": null,\n' +
+                                '                            "uri": "http://localhost:46030/media/catalog/product/cache/888bd69198f1ecfe57e3722572705412/_/2/_20220506-141128.png",\n' +
+                                '                            "width": null\n' +
+                                '                        }\n' +
+                                '                    ],\n' +
+                                '                    "languageCode": "en-US",\n' +
+                                '                    "priceInfo": {\n' +
+                                '                        "cost": null,\n' +
+                                '                        "currencyCode": null,\n' +
+                                '                        "originalPrice": 2049.99,\n' +
+                                '                        "price": 2049.99,\n' +
+                                '                        "priceEffectiveTime": null,\n' +
+                                '                        "priceExpireTime": null\n' +
+                                '                    },\n' +
+                                '                    "primaryProductId": "90YV0F98-MTAA00",\n' +
+                                '                    "title": "Basketball",\n' +
+                                '                    "type": "PRIMARY",\n' +
+                                '                    "uri": "http://localhost:46030/basketball.html"\n' +
+                                '                },\n' +
+                                '                "score": 0.5447383539\n' +
+                                '            }\n' +
+                                '        },\n' +
+
+                                '{\n' +
+                                '            "entity_id": "1",\n' +
+                                '            "id": "Basketball",\n' +
+                                '            "metadata": {\n' +
+                                '                "product": {\n' +
+                                '                    "attributes": {\n' +
+                                '                        "color": null,\n' +
+                                '                        "display": null,\n' +
+                                '                        "graphic_card": null,\n' +
+                                '                        "memory": null,\n' +
+                                '                        "requiredOptions": true,\n' +
+                                '                        "on_sale": {\n' +
+                                '                            "text": [\n' +
+                                '                                "FALSE"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "operating_system": null,\n' +
+                                '                        "pc_processor": null,\n' +
+                                '                        "product_code": {\n' +
+                                '                            "text": [\n' +
+                                '                                "YV"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "size": null,\n' +
+                                '                        "storage": {\n' +
+                                '                            "text": [\n' +
+                                '                                "_"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "weight": {\n' +
+                                '                            "numbers": [\n' +
+                                '                                5.58\n' +
+                                '                            ]\n' +
+                                '                        }\n' +
+                                '                    },\n' +
+                                '                    "availability": "IN_STOCK",\n' +
+                                '                    "availableQuantity": 110,\n' +
+                                '                    "brands": [\n' +
+                                '                        "ROG"\n' +
+                                '                    ],\n' +
+                                '                    "categories": [\n' +
+                                '                        "motherboards-components > graphics cards > rog > nvida > 30 series"\n' +
+                                '                    ],\n' +
+                                '                    "id": "90YV0F98-MTAA00",\n' +
+                                '                    "images": [\n' +
+                                '                        {\n' +
+                                '                            "height": null,\n' +
+                                '                            "uri": "http://localhost:46030/media/catalog/product/cache/888bd69198f1ecfe57e3722572705412/_/2/_20220506-141128.png",\n' +
+                                '                            "width": null\n' +
+                                '                        }\n' +
+                                '                    ],\n' +
+                                '                    "languageCode": "en-US",\n' +
+                                '                    "priceInfo": {\n' +
+                                '                        "cost": null,\n' +
+                                '                        "currencyCode": null,\n' +
+                                '                        "originalPrice": 2049.99,\n' +
+                                '                        "price": 2049.99,\n' +
+                                '                        "priceEffectiveTime": null,\n' +
+                                '                        "priceExpireTime": null\n' +
+                                '                    },\n' +
+                                '                    "primaryProductId": "90YV0F98-MTAA00",\n' +
+                                '                    "title": "Basketball",\n' +
+                                '                    "type": "PRIMARY",\n' +
+                                '                    "uri": "http://localhost:46030/basketball.html"\n' +
+                                '                },\n' +
+                                '                "score": 0.5447383539\n' +
+                                '            }\n' +
+                                '        },\n' +
+                                '{\n' +
+                                '            "entity_id": "1",\n' +
+                                '            "id": "Basketball",\n' +
+                                '            "metadata": {\n' +
+                                '                "product": {\n' +
+                                '                    "attributes": {\n' +
+                                '                        "color": null,\n' +
+                                '                        "display": null,\n' +
+                                '                        "graphic_card": null,\n' +
+                                '                        "memory": null,\n' +
+                                '                        "requiredOptions": true,\n' +
+                                '                        "on_sale": {\n' +
+                                '                            "text": [\n' +
+                                '                                "FALSE"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "operating_system": null,\n' +
+                                '                        "pc_processor": null,\n' +
+                                '                        "product_code": {\n' +
+                                '                            "text": [\n' +
+                                '                                "YV"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "size": null,\n' +
+                                '                        "storage": {\n' +
+                                '                            "text": [\n' +
+                                '                                "_"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "weight": {\n' +
+                                '                            "numbers": [\n' +
+                                '                                5.58\n' +
+                                '                            ]\n' +
+                                '                        }\n' +
+                                '                    },\n' +
+                                '                    "availability": "IN_STOCK",\n' +
+                                '                    "availableQuantity": 110,\n' +
+                                '                    "brands": [\n' +
+                                '                        "ROG"\n' +
+                                '                    ],\n' +
+                                '                    "categories": [\n' +
+                                '                        "motherboards-components > graphics cards > rog > nvida > 30 series"\n' +
+                                '                    ],\n' +
+                                '                    "id": "90YV0F98-MTAA00",\n' +
+                                '                    "images": [\n' +
+                                '                        {\n' +
+                                '                            "height": null,\n' +
+                                '                            "uri": "http://localhost:46030/media/catalog/product/cache/888bd69198f1ecfe57e3722572705412/_/2/_20220506-141128.png",\n' +
+                                '                            "width": null\n' +
+                                '                        }\n' +
+                                '                    ],\n' +
+                                '                    "languageCode": "en-US",\n' +
+                                '                    "priceInfo": {\n' +
+                                '                        "cost": null,\n' +
+                                '                        "currencyCode": null,\n' +
+                                '                        "originalPrice": 2049.99,\n' +
+                                '                        "price": 2049.99,\n' +
+                                '                        "priceEffectiveTime": null,\n' +
+                                '                        "priceExpireTime": null\n' +
+                                '                    },\n' +
+                                '                    "primaryProductId": "90YV0F98-MTAA00",\n' +
+                                '                    "title": "Basketball",\n' +
+                                '                    "type": "PRIMARY",\n' +
+                                '                    "uri": "http://localhost:46030/basketball.html"\n' +
+                                '                },\n' +
+                                '                "score": 0.5447383539\n' +
+                                '            }\n' +
+                                '        },\n' +
+
+                                ' {\n' +
+                                '            "entity_id": "2",\n' +
+                                '            "id": "Jacket",\n' +
+                                '            "metadata": {\n' +
+                                '                "product": {\n' +
+                                '                    "attributes": {\n' +
+                                '                        "color": null,\n' +
+                                '                        "display": null,\n' +
+                                '                        "graphic_card": null,\n' +
+                                '                        "memory": null,\n' +
+                                '                        "requiredOptions": false,\n' +
+                                '                        "on_sale": {\n' +
+                                '                            "text": [\n' +
+                                '                                "TRUE"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "operating_system": null,\n' +
+                                '                        "pc_processor": null,\n' +
+                                '                        "product_code": {\n' +
+                                '                            "text": [\n' +
+                                '                                "YV"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "size": null,\n' +
+                                '                        "storage": {\n' +
+                                '                            "text": [\n' +
+                                '                                "_"\n' +
+                                '                            ]\n' +
+                                '                        },\n' +
+                                '                        "weight": {\n' +
+                                '                            "numbers": [\n' +
+                                '                                5.58\n' +
+                                '                            ]\n' +
+                                '                        }\n' +
+                                '                    },\n' +
+                                '                    "availability": "IN_STOCK",\n' +
+                                '                    "availableQuantity": 110,\n' +
+                                '                    "brands": [\n' +
+                                '                        "ROG"\n' +
+                                '                    ],\n' +
+                                '                    "categories": [\n' +
+                                '                        "motherboards-components > graphics cards > rog > nvida > 30 series"\n' +
+                                '                    ],\n' +
+                                '                    "id": "90YV0F98-MTAA00",\n' +
+                                '                    "images": [\n' +
+                                '                        {\n' +
+                                '                            "height": null,\n' +
+                                '                            "uri": "http://localhost:46030/media/catalog/product/cache/888bd69198f1ecfe57e3722572705412/j/a/jacket.png",\n' +
+                                '                            "width": null\n' +
+                                '                        }\n' +
+                                '                    ],\n' +
+                                '                    "languageCode": "en-US",\n' +
+                                '                    "priceInfo": {\n' +
+                                '                        "cost": null,\n' +
+                                '                        "currencyCode": null,\n' +
+                                '                        "originalPrice": 2049.99,\n' +
+                                '                        "price": 2049.99,\n' +
+                                '                        "priceEffectiveTime": null,\n' +
+                                '                        "priceExpireTime": null\n' +
+                                '                    },\n' +
+                                '                    "primaryProductId": "90YV0F98-MTAA00",\n' +
+                                '                    "title": "Basketball",\n' +
+                                '                    "type": "PRIMARY",\n' +
+                                '                    "uri": "http://localhost:46030/jacket.html"\n' +
+                                '                },\n' +
+                                '                "score": 0.5447383539\n' +
+                                '            }\n' +
+                                '        }\n' +
+                                '    ]\n' +
+                                '}'
+                            );
+                            // console.log(result)
+                            customStorage.setRelatedProductData(result, 5000);
+                            loadHtml(result)
+                        }
+
+                    })
+                }else{
+                    console.log(333)
+                    loadHtml(customStorage.getRelatedProductData());
+                }
+            }
+        }
+
+        function loadHtml(result) {
+            var html = '';
+            html += '<div class="block-content content" aria-labelledby="block-related-heading">' +
+                '<div class="products wrapper grid products-grid products-related">' +
+                '       <ol class="products list items product-items list-products-botton" > ';
+            <?php $ii = 0; ?>
+            result.results.map(function (item, idx) {
+                setCookie('relatedProductId_' + idx, item.entity_id, 1);
+                html += '<li class="item product product-item configurable  area-price saved-amount"\n' +
+                    'id="product-item_' + item.id + '"\n' +
+                    'data-shuffle-group" >\n';
+                var available = item.metadata.product.availableQuantity > 0 ? 'related-available' : '';
+
+                html += ' <div class="product-item-info ' + available + '">\n' +
+                    '<a href="' + item.metadata.product.uri + '"\n' +
+                    'class="product photo product-item-photo">\n' +
+                    '<image src="' + item.metadata.product.images[0].uri + '" />'
+                '</a>';
+                html += '<div class="product details product-item-details">\n' +
+                    '                                    <strong class="product name product-item-name"><a\n' +
+                    '                                                class="product-item-link"\n' +
+                    '                                                title="' + item.metadata.product.title + '"\n' +
+                    '                                                href="' + item.metadata.product.uri + '">\n' +
+                    '                                            ' + item.metadata.product.title + '</a>\n' +
+                    '                                    </strong>';
+                html += '<div class="price-box price-final_price" data-role="priceBox" data-product-id="20731-US-CNF" data-price-box="product-id-"' + item.id + '> \n' +
+                    '  <span class="price-container price-final_price tax weee" style="height: 50px;">\n' +
+                    '  <span id="product-price-"' + item.id + ' data-price-amount="' + item.metadata.product.priceInfo.price + '" data-price-type="finalPrice" class="price-wrapper ">\n' +
+                    '    <span class="price" style="">&nbsp;' + item.metadata.product.priceInfo.price + '&nbsp;</span>\n' +
+                    '    </span>\n' +
+                    ' </span>\n' +
+                    '</div>'
+                html += '<div class="product actions product-item-actions">' +
+                    '<div class="actions-primary addon-action">';
+                if (item.metadata.product.attributes.on_sale.text != 'FALSE') {
+                    //
+                    // console.log(item.metadata.product.attributes.requiredOptions)
+                    if (item.metadata.product.attributes.requiredOptions) {
+                        html += " <button\n" +
+                            "                                                                class=\"action tocart primary\"\n" +
+                            "                                                                data-mage-init='{\"redirectUrl\": {\"url\": \"" + item.metadata.product.uri + "\"}}' type=\"button\" title=\"<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>\">\n" +
+                            "                                                            <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>\n" +
+                            "                                                        </button>";
+                    } else {
+                        var cartUrl = "";
+
+                        $.ajax({
+                            url: url.build('relatedProduct/product/fetchCartUrl'),
+                            type: "POST",
+                            data: {
+                                'productId': item.entity_id,
+                                'currentUrl': '<?=$configProvider->getCurrentUrl()?>'
+                            },
+                            dataType: 'json',
+                            async: false
+                        }).done(function (result) {
+                            cartUrl = result;
+                        });
+                        <?php
+                        /** @var $viewModel PreparePostData */
+                        $viewModel = $block->getViewModel();
+                        $postArray = $viewModel->getPostData(
+                            $block->escapeUrl($configProvider->getAddUrl($_COOKIE['relatedProductId_0'], $configProvider->getCurrentUrl())),
+                            ['product' => $_COOKIE['relatedProductId_0']]
+                        );
+                        $value = $postArray['data'][ActionInterface::PARAM_NAME_URL_ENCODED];
+                        ?>
+
+                        html += "                                                   <form data-role=\"tocart-form\"\n" +
+                            "                                                              data-product-sku=\"" + item.id + "\"\n" +
+                            "                                                              action=\"" + cartUrl + "\"\n" +
+                            "                                                              method=\"post\">\n" +
+                            "                                                            <input type=\"hidden\" name=\"product\"\n" +
+                            "                                                                   value=\"" + item.entity_id + "\">\n" +
+                            "                                                            <input type=\"hidden\"\n" +
+                            "                                                                   name=\"<?= /* @noEscape */ ActionInterface::PARAM_NAME_URL_ENCODED?>\"\n" +
+                            "                                                                   value=\"<?= /* @noEscape */ $value?>\">\n" +
+                            '                                                            <?= $block->getBlockHtml('formkey') ?>\n' +
+                            "                                                            <button type=\"submit\"\n" +
+                            "                                                                    pre_order title=\"<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>\"\n" +
+                            "                                                                    class=\"action tocart add primary\">\n" +
+                            "                                                                <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>\n" +
+                            "                                                            </button>\n" +
+                            "                                                        </form>";
+                    }
+
+                } else {
+                    var notifyUrl = "";
+                    $.ajax({
+                        url: url.build('relatedProduct/product/fetchNotifyUrl'),
+                        type: "POST",
+                        data: {
+                            'productId': item.entity_id,
+                            'currentUrl': '<?=$configProvider->getCurrentUrl()?>'
+                        },
+                        dataType: 'json',
+                        async: false
+                    }).done(function (result) {
+                        notifyUrl = result;
+                    });
+                    html += " <div class=\"product alert stock\"><a class=\"button action primary\"" +
+                        " href=\"" + notifyUrl + "\" title=\"<?= $block->escapeHtmlAttr(__('Notify me')) ?>\"><?= $block->escapeHtml(__('Notify me')) ?></a> </div> ";
+
+                }
+                html += "</div>" +
+                    "</div>";
+
+
+                html += '</div>' +
+                    '</div>' +
+                    '</li>';
+
+
+            })
+
+            html += '</ol></div'
+            $('#related-products').html(html)
+        }
+    });
+
+
+
+</script>

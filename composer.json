@@ -1,0 +1,23 @@
+{
+  "name": "Asus55/Product",
+  "description": "A Magento 2 module that overwrite related product",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "require": {
+    "php": "~7.3.0||~7.4.0",
+    "magento/framework": "103.0.*",
+    "magento/module-backend": "102.0.*",
+    "magento/module-catalog": "104.0.*",
+    "magento/module-config": "101.2.*"
+  },
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Asus55\\Product\\": ""
+    }
+  }
+}
