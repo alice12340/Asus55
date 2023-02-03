@@ -88,7 +88,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
                 ->addAttributeToSelect('required_options')
     //            ->setPositionOrder()
                 ->addStoreFilter()
-                ->addAttributeToFilter('sku',array('in' => array('Basketball')));
+                ->addAttributeToFilter('sku',array('in' => $skus));
 
 
             if ($this->moduleManager->isEnabled('Magento_Checkout')) {
