@@ -82,11 +82,12 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
             $product = $this->getProduct();
             $productId = $product->getSku();
             $customerEmail = $this->customer->getCustomer()->getEmail();
+//            $_COOKIE['_ga'] = 'GA1.1.4353453453.54354354353';
             $gaClientId = preg_replace("/^.+\.(.+?\..+?)$/", "\\1", @$_COOKIE['_ga']);
             $skus = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId);
             $this->_itemCollection = $this->productFactory->create()
                 ->addAttributeToSelect('required_options')
-    //            ->setPositionOrder()
+//                ->setPositionOrder()
                 ->addStoreFilter()
                 ->addAttributeToFilter('sku',array('in' => $skus));
 

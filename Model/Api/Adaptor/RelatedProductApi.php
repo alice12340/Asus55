@@ -29,13 +29,13 @@ class RelatedProductApi extends AbstractAdapter
                 'useremail' => $customerEmail,
             ];
 
-            $param = array(
-                'user' => '4353453453.54354354353',
-                'session' => 'detail-page-view',
-                'product' => ['90YV0FA1-M0AA00'],
-                'usermail' => '',
-            );
-
+//            $param = array(
+//                'user' => '4353453453.54354354353',
+//                'session' => 'detail-page-view',
+//                'product' => ['90YV0FA1-M0AA00'],
+//                'usermail' => '',
+//            );
+//
 
 
             if ($enable){
