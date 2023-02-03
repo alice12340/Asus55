@@ -23,11 +23,15 @@ Connect to your server running Magento® 2 using SSH or other method (make sure 
 Locate your Magento® 2 project root.
 Install the Magento® 2 extension through composer and wait till it's completed:
 **composer require asus55/product "@dev"**
+
 Once completed run the Magento® module enable command:
 **bin/magento module:enable Asus_Product**
+
 After that run the Magento® upgrade and clean the caches:
-**php bin/magento setup:upgrade
-php bin/magento cache:flush**
+**php bin/magento setup:upgrade**
+
+**php bin/magento cache:flush**
+
 If Magento® is running in production mode you also need to redeploy the static content:
 **php bin/magento setup:static-content:deploy**
 
