@@ -15,18 +15,19 @@ class RelatedProductApi extends AbstractAdapter
      * @param $productId
      * @param $customerEmail
      * @param $gaClientId
+     * @param $currentUrl
      * @return array|bool|float|int|mixed|string|null
      */
-    public function getRelatedProducts($productId, $customerEmail, $gaClientId){
+    public function getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl){
         try{
             $apiUrl = $this->config->getApiBaseUrl();
             $enable = $this->config->getRelatedProductEnabled();
-
             $param = [
                 'user'      => $gaClientId,
                 'session'   => "detail-page-view",
                 'product'   => [$productId],
                 'useremail' => $customerEmail,
+                'page_url'  => $currentUrl,
             ];
 
             if ($enable){

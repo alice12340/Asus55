@@ -25,6 +25,8 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
 
     protected $configProvider;
 
+    protected $urlInterface;
+
     /**
      * Related constructor.
      * @param \Magento\Catalog\Block\Product\Context $context
@@ -45,6 +47,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         Session $cutomer,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         ConfigProvider $configProvider,
+        \Magento\Framework\UrlInterface $urlInterface,
         array $data = []
     ) {
         $this->_checkoutCart = $checkoutCart;
@@ -56,6 +59,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         $this->customer = $cutomer;
         $this->storeManager = $storeManager;
         $this->configProvider = $configProvider;
+        $this->urlInterface = $urlInterface;
 
         parent::__construct(
             $context,
@@ -84,7 +88,8 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
             $customerEmail = $this->customer->getCustomer()->getEmail();
 //            $_COOKIE['_ga'] = 'GA1.1.4353453453.54354354353';
             $gaClientId = preg_replace("/^.+\.(.+?\..+?)$/", "\\1", @$_COOKIE['_ga']);
-            $skus = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId);
+            $currentUrl = $this->urlInterface->getCurrentUrl();
+            $skus = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl);
             $this->_itemCollection = $this->productFactory->create()
                 ->addAttributeToSelect('required_options')
 //                ->setPositionOrder()
