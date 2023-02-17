@@ -86,10 +86,11 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
             $product = $this->getProduct();
             $productId = $product->getSku();
             $customerEmail = $this->customer->getCustomer()->getEmail();
+            $customerGroupId = $this->customer->getCustomer()->getGroupId();
 //            $_COOKIE['_ga'] = 'GA1.1.4353453453.54354354353';
             $gaClientId = preg_replace("/^.+\.(.+?\..+?)$/", "\\1", @$_COOKIE['_ga']);
             $currentUrl = $this->urlInterface->getCurrentUrl();
-            $skus = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl);
+            $skus = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl, $customerGroupId);
             $this->_itemCollection = $this->productFactory->create()
                 ->addAttributeToSelect('required_options')
 //                ->setPositionOrder()

@@ -16,9 +16,10 @@ class RelatedProductApi extends AbstractAdapter
      * @param $customerEmail
      * @param $gaClientId
      * @param $currentUrl
+     * @param $customerGroupId
      * @return array|bool|float|int|mixed|string|null
      */
-    public function getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl){
+    public function getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl, $customerGroupId){
         try{
             $apiUrl = $this->config->getApiBaseUrl();
             $enable = $this->config->getRelatedProductEnabled();
@@ -28,6 +29,7 @@ class RelatedProductApi extends AbstractAdapter
                 'product'   => [$productId],
                 'useremail' => $customerEmail,
                 'page_url'  => $currentUrl,
+                'customer_group_id' => $customerGroupId,
             ];
 
             if ($enable){
