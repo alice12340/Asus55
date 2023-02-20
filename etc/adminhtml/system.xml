@@ -10,7 +10,7 @@
             <tab>related_product</tab>
             <resource>Asus_Product::config</resource>
             <group id="api" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                <field id="base_url" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                <field id="base_url" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="0">
                     <label>Url</label>
                 </field>
                 <!--<field id="username" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">-->
@@ -19,7 +19,7 @@
                 <!--<field id="password" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">-->
                     <!--<label>Password</label>-->
                 <!--</field>-->
-                <field id="enable" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                <field id="enable" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="0">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>

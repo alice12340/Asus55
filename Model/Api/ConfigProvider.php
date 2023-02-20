@@ -54,22 +54,22 @@ class ConfigProvider
 
     public function getApiBaseUrl()
     {
-        return $this->scopeConfig->getValue(self::BR_API_BASE_URL, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(self::BR_API_BASE_URL, ScopeInterface::SCOPE_WEBSITE);
     }
 
     public function getApiUser()
     {
-        return $this->scopeConfig->getValue(self::BR_API_AUTH_USER, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(self::BR_API_AUTH_USER, ScopeInterface::SCOPE_WEBSITE);
     }
 
     public function getApiPassword()
     {
-        return $this->scopeConfig->getValue(self::BR_API_PASSWORD, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(self::BR_API_PASSWORD, ScopeInterface::SCOPE_WEBSITE);
     }
 
-    public function getRelatedProductEnabled($storeId = null)
+    public function getRelatedProductEnabled()
     {
-        return $this->scopeConfig->getValue(self::BR_StorePickup_enable,ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->scopeConfig->getValue(self::BR_StorePickup_enable,ScopeInterface::SCOPE_WEBSITE);
     }
 
 

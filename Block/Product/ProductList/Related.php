@@ -21,8 +21,6 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
 
     protected $customer;
 
-    protected $storeManager;
-
     protected $configProvider;
 
     protected $urlInterface;
@@ -45,7 +43,6 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productFactory,
         RelatedProductApi $api,
         Session $cutomer,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         ConfigProvider $configProvider,
         \Magento\Framework\UrlInterface $urlInterface,
         array $data = []
@@ -57,7 +54,6 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         $this->productFactory = $productFactory;
         $this->api = $api;
         $this->customer = $cutomer;
-        $this->storeManager = $storeManager;
         $this->configProvider = $configProvider;
         $this->urlInterface = $urlInterface;
 
@@ -81,7 +77,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
      */
     protected function _prepareData()
     {
-        $apiEnable = $this->configProvider->getRelatedProductEnabled($this->storeManager->getStore()->getStoreId());
+        $apiEnable = $this->configProvider->getRelatedProductEnabled();
         if ($apiEnable){
             $product = $this->getProduct();
             $productId = $product->getSku();
