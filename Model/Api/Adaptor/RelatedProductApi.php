@@ -22,7 +22,7 @@ class RelatedProductApi extends AbstractAdapter
     public function getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl, $customerGroupId){
         try{
             $apiUrl = $this->config->getApiBaseUrl();
-            $enable = $this->config->getRelatedProductEnabled();
+//            $enable = $this->config->getRelatedProductEnabled();
             $param = [
                 'user'      => $gaClientId,
                 'session'   => "detail-page-view",
@@ -32,23 +32,20 @@ class RelatedProductApi extends AbstractAdapter
                 'customer_group_id' => $customerGroupId,
             ];
 
-            if ($enable){
-                $res = $this->__doRequest(
-                    $apiUrl,
-                    $param
-                );
-                $res = (array)json_decode($res);
+            $res = $this->__doRequest(
+                $apiUrl,
+                $param
+            );
+            $res = (array)json_decode($res);
 
-                $skus = [];
-                foreach ($res['results'] as $v){
-                   $v = (array)$v;
-                    $skus[] = $v['id'];
-                }
-
-                return $skus;
-            }else{
-                return false;
+            $skus = [];
+            foreach ($res['results'] as $v){
+               $v = (array)$v;
+                $skus[] = $v['id'];
             }
+
+            return $skus;
+
         }catch (\Exception $e){
             $this->logClientError(
                 'getRelatedProduct',
