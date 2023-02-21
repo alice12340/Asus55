@@ -25,7 +25,7 @@ Install the Magento® 2 extension through composer and wait till it's completed:
 **composer require asus55/product "@dev"**
 
 Once completed run the Magento® module enable command:
-**bin/magento module:enable Asus_Product**
+**bin/magento module:enable Asus55_Product**
 
 After that run the Magento® upgrade and clean the caches:
 **php bin/magento setup:upgrade**

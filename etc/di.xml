@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <preference for="Magento\Catalog\Block\Product\ProductList\Related" type="Asus\Product\Block\Product\ProductList\Related" ></preference>
+    <preference for="Magento\Catalog\Block\Product\ProductList\Related" type="Asus55\Product\Block\Product\ProductList\Related" ></preference>
 
 </config>

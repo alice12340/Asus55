@@ -6,7 +6,7 @@
  * Time: 下午5:58
  */
 
-namespace Asus\Product\Model\Api;
+namespace Asus55\Product\Model\Api;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
@@ -18,22 +18,22 @@ class ConfigProvider
     /*
      * API auth user
      */
-    const BR_API_BASE_URL = 'asus_related_product_settings/api/base_url';
+    const BR_API_BASE_URL = 'asus55_related_product_settings/api/base_url';
 
     /*
      * API auth user
      */
-    const BR_API_AUTH_USER = 'asus_related_product_settings/api/username';
+    const BR_API_AUTH_USER = 'asus55_related_product_settings/api/username';
 
     /*
      * API auth password
      */
-    const BR_API_PASSWORD = 'asus_related_product_settings/api/password';
+    const BR_API_PASSWORD = 'asus55_related_product_settings/api/password';
 
     /**
      * BR store pickup
      */
-    const BR_StorePickup_enable = 'asus_related_product_settings/api/enable';
+    const BR_StorePickup_enable = 'asus55_related_product_settings/api/enable';
 
 
 

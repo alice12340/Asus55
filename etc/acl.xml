@@ -4,7 +4,7 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <!-- this resource id we can use in system.xml for section -->
-                <resource id="Asus_Product::config" title="Related Product Setting" sortOrder="1"  />
+                <resource id="Asus55_Product::config" title="Related Product Setting" sortOrder="1"  />
             </resource>
         </resources>
     </acl>

@@ -1,19 +1,14 @@
 <?php
 
-namespace Asus\Product\Block\Product\ProductList;
+namespace Asus55\Product\Block\Product\ProductList;
 
-use Asus\Product\Model\Api\Adaptor\RelatedProductApi;
-use Asus\Product\Model\Api\ConfigProvider;
+use Asus55\Product\Model\Api\Adaptor\RelatedProductApi;
+use Asus55\Product\Model\Api\ConfigProvider;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Session;
 
 class Related extends \Magento\Catalog\Block\Product\ProductList\Related
 {
-
-    /**
-     * We can now set our limit here
-     */
-    const RELATED_LIMIT = 2;
 
     protected $productFactory;
 

@@ -4,11 +4,11 @@
         <tab id="related_product" translate="label" sortOrder="10">
             <label>Related Product</label>
         </tab>
-        <section id="asus_related_product_settings" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="asus55_related_product_settings" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Api Setting</label>
             <tab>related_product</tab>
-            <resource>Asus_Product::config</resource>
+            <resource>Asus55_Product::config</resource>
             <group id="api" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <field id="base_url" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="0">
                     <label>Url</label>

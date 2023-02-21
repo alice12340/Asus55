@@ -5,7 +5,7 @@
  * Date: 21-10-31
  */
 
-namespace Asus\Product\Model\Api\Adaptor;
+namespace Asus55\Product\Model\Api\Adaptor;
 
 class RelatedProductApi extends AbstractAdapter
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Asus\Product\Model\Api\Adaptor;
+namespace Asus55\Product\Model\Api\Adaptor;
 
-use Asus\Product\Model\Api\ConfigProvider;
+use Asus55\Product\Model\Api\ConfigProvider;
 use Magento\Framework\Serialize\Serializer\Json;
 use Psr\Log\LoggerInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
