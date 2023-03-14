@@ -31,6 +31,14 @@ class RelatedProductApi extends AbstractAdapter
                 'page_url'  => $currentUrl,
                 'customer_group_id' => $customerGroupId,
             ];
+//            $param = [
+//                'user' => '4353453453.54354354353',
+//                'session' => 'detail-page-view',
+//                'product' => ['90DC0013-B40000'],
+//                'usermail' => '',
+//                'page_url'  => "https://shop.asus.com/us/rog/rog-phone-6.html",
+//                'customer_group_id' => '',
+//            ];
 
             $res = $this->__doRequest(
                 $apiUrl,
