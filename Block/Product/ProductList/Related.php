@@ -22,6 +22,8 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
 
     protected $urlInterface;
 
+    protected $collection;
+
     /**
      * Related constructor.
      * @param \Magento\Catalog\Block\Product\Context $context
@@ -43,7 +45,9 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         ConfigProvider $configProvider,
         \Magento\Framework\UrlInterface $urlInterface,
+        \Magento\Framework\Data\Collection $collection,
         array $data = []
+
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -55,6 +59,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         $this->storeManager = $storeManager;
         $this->configProvider = $configProvider;
         $this->urlInterface = $urlInterface;
+        $this->collection = $collection;
 
         parent::__construct(
             $context,
@@ -83,10 +88,10 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
             $customerEmail = $this->customer->getCustomer()->getEmail();
             $customerGroupId = $this->customer->getCustomer()->getGroupId();
 //            $_COOKIE['_ga'] = 'GA1.1.4353453453.54354354353';
-            $gaClientId = preg_replace("/^.+\.(.+?\..+?)$/", "\\1", @$_COOKIE['_ga']);
+            $gaClientId = isset($_COOKIE['_ga']) ? preg_replace("/^.+\.(.+?\..+?)$/", "\\1", @$_COOKIE['_ga']) : '';
             $currentUrl = $this->urlInterface->getCurrentUrl();
             $skus = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl, $customerGroupId);
-            $this->_itemCollection = $this->productFactory->create()
+            $itemCollectionNoOrder = $this->productFactory->create()
                 ->addAttributeToSelect('required_options')
 //                ->setPositionOrder()
                 ->addStoreFilter()
@@ -94,15 +99,26 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
 
 
             if ($this->moduleManager->isEnabled('Magento_Checkout')) {
-                $this->_addProductAttributesAndPrices($this->_itemCollection);
+                $this->_addProductAttributesAndPrices($itemCollectionNoOrder);
             }
-            $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
+            $itemCollectionNoOrder->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
-            $this->_itemCollection->load();
+            $itemCollectionNoOrder->load();
 
-            foreach ($this->_itemCollection as $product) {
+            foreach ($itemCollectionNoOrder as $product) {
                 $product->setDoNotUseCategoryId(true);
             }
+
+
+            // sort product by sku which api returned
+            foreach ($skus as $sku){
+                foreach ($itemCollectionNoOrder->getItems() as $product){
+                    if ($sku === $product->getSku()){
+                        $this->collection->addItem($product);
+                    }
+                }
+            }
+            $this->_itemCollection = $this->collection;
 
             return $this;
         }

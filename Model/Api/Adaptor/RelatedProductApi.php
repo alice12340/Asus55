@@ -47,9 +47,11 @@ class RelatedProductApi extends AbstractAdapter
             $res = (array)json_decode($res);
 
             $skus = [];
-            foreach ($res['results'] as $v){
-               $v = (array)$v;
-                $skus[] = $v['id'];
+            if (isset($res['results'])){
+                foreach ($res['results'] as $v){
+                    $v = (array)$v;
+                    $skus[] = $v['id'];
+                }
             }
 
             return $skus;
