@@ -46,6 +46,8 @@ class RelatedProductApi extends AbstractAdapter
             );
             $res = (array)json_decode($res);
 
+            $experimentIds = $res['experimentIds'] ? $res['experimentIds'] : "";
+
             $skus = [];
             if (isset($res['results'])){
                 foreach ($res['results'] as $v){
@@ -54,7 +56,7 @@ class RelatedProductApi extends AbstractAdapter
                 }
             }
 
-            return $skus;
+            return array('skus' => $skus, 'experimentIds' => $experimentIds);
 
         }catch (\Exception $e){
             $this->logClientError(

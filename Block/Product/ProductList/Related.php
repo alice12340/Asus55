@@ -4,7 +4,7 @@ namespace Asus55\Product\Block\Product\ProductList;
 
 use Asus55\Product\Model\Api\Adaptor\RelatedProductApi;
 use Asus55\Product\Model\Api\ConfigProvider;
-use Magento\Catalog\Model\Product;
+use Asus55\Product\Model\Customcookie;
 use Magento\Customer\Model\Session;
 
 class Related extends \Magento\Catalog\Block\Product\ProductList\Related
@@ -23,6 +23,8 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
     protected $urlInterface;
 
     protected $collection;
+
+    protected $customCookie;
 
     /**
      * Related constructor.
@@ -46,6 +48,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         ConfigProvider $configProvider,
         \Magento\Framework\UrlInterface $urlInterface,
         \Magento\Framework\Data\Collection $collection,
+        Customcookie $customCookie,
         array $data = []
 
     ) {
@@ -60,6 +63,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         $this->configProvider = $configProvider;
         $this->urlInterface = $urlInterface;
         $this->collection = $collection;
+        $this->customCookie = $customCookie;
 
         parent::__construct(
             $context,
@@ -90,7 +94,10 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
 //            $_COOKIE['_ga'] = 'GA1.1.4353453453.54354354353';
             $gaClientId = isset($_COOKIE['_ga']) ? preg_replace("/^.+\.(.+?\..+?)$/", "\\1", @$_COOKIE['_ga']) : '';
             $currentUrl = $this->urlInterface->getCurrentUrl();
-            $skus = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl, $customerGroupId);
+            $apiRes = $this->api->getRelatedProducts($productId, $customerEmail, $gaClientId, $currentUrl, $customerGroupId);
+            $skus = $apiRes['skus'];
+            $experimentIds = $apiRes['experimentIds'];
+            $this->customCookie->setCookie('experimentIds', $experimentIds);
             $itemCollectionNoOrder = $this->productFactory->create()
                 ->addAttributeToSelect('required_options')
 //                ->setPositionOrder()
