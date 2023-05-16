@@ -89,7 +89,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         if ($apiEnable){
             $product = $this->getProduct();
             $productId = $product->getSku();
-            $customerEmail = $this->customer->getCustomer()->getEmail();
+            $customerEmail = $this->getUserId();
             $customerGroupId = $this->customer->getCustomer()->getGroupId();
 //            $_COOKIE['_ga'] = 'GA1.1.4353453453.54354354353';
             $gaClientId = isset($_COOKIE['_ga']) ? preg_replace("/^.+\.(.+?\..+?)$/", "\\1", @$_COOKIE['_ga']) : '';
@@ -132,6 +132,72 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         else{
             parent::_prepareData();
         }
+    }
+
+    /**
+     * @desc get User Id
+     * @return bool|string|string[]|null
+     */
+    function getUserId(){
+//        $_COOKIE['APREFORZ'] = '5544BEC0-CC3A-4655-B728-C8235B2E33E7TJQE';
+        if (!isset($_COOKIE['APREFORZ'])) {
+            return '';
+        }
+
+        $cd = preg_replace('/^\s+/', '', $_COOKIE['APREFORZ']);
+        $cd = $this->unescape($cd);
+
+        if ($cd && strlen($cd) > 4){
+            return substr($cd, 0, strlen($cd) - 4);
+        }else{
+            return $cd;
+        }
+
+    }
+
+
+    function unescape($str)
+    {
+        $str = rawurldecode($str);
+
+        preg_match_all("/%u.{4}|.{4};|d+;|.+/U",$str,$r);
+
+        $ar = $r[0];
+
+        foreach($ar as $k=>$v)
+
+        {
+            if(substr($v,0,2) == "%u")
+
+            {
+                //$ar[$k] = iconv("UCS-2","UTF-8",pack("H4",substr($v,-4)));
+
+                $ar[$k] = mb_convert_encoding(pack("H4",substr($v,-4)),"UTF-8","UCS-2");
+
+            }
+
+            elseif(substr($v,0,3) == "")
+
+            {
+                //$ar[$k] = iconv("UCS-2","UTF-8",pack("H4",substr($v,3,-1)));
+
+                $ar[$k] = mb_convert_encoding(pack("H4",substr($v,3,-1)),"UTF-8","UCS-2");
+
+            }
+
+            elseif(substr($v,0,2) == "")
+
+            {
+                //$ar[$k] = iconv("UCS-2","UTF-8",pack("n",substr($v,2,-1)));
+
+                $ar[$k] = mb_convert_encoding(pack("n",substr($v,2,-1)),"UTF-8","UCS-2");
+
+            }
+
+        }
+
+        return join("",$ar);
+
     }
 
 
