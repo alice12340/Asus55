@@ -9,7 +9,7 @@
         <referenceContainer name="content.aside">
             <referenceBlock class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" remove="true"/>
 
-            <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related.override" template="Magento_Catalog::product/list/items.phtml" cacheable="false">
+            <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" template="Magento_Catalog::product/list/items.phtml" cacheable="false">
                 <arguments>
                     <argument name="type" xsi:type="string">related</argument>
                     <argument name="view_model" xsi:type="object">Magento\Catalog\ViewModel\Product\Listing\PreparePostData</argument>
